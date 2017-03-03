@@ -35,9 +35,9 @@ abstract aspect AbstractMetricAspect {
         if (method.isAnnotationPresent(clazz)) {
             Annotation annotation = method.getAnnotation(clazz);
             T metric = factory.metric(metricAnnotationName(annotation), metricAnnotationAbsolute(annotation));
-            return new AnnotatedMetric.IsPresent<T>(metric, annotation);
+            return new AnnotatedMetric.IsPresent<>(metric, annotation);
         } else {
-            return new AnnotatedMetric.IsNotPresent<T>();
+            return new AnnotatedMetric.IsNotPresent<>();
         }
     }
 
@@ -51,7 +51,7 @@ abstract aspect AbstractMetricAspect {
         else if (Timed.class.isInstance(annotation))
             return ((Timed) annotation).name();
         else
-            throw new IllegalArgumentException("Unsupported Metrics annotation [" + annotation.getClass().getName() + "]");
+            throw new IllegalArgumentException("Unsupported Metrics annotation [" + annotation.getClass().getName() + ']');
     }
 
     protected static boolean metricAnnotationAbsolute(Annotation annotation) {
@@ -64,7 +64,7 @@ abstract aspect AbstractMetricAspect {
         else if (Timed.class.isInstance(annotation))
             return ((Timed) annotation).absolute();
         else
-            throw new IllegalArgumentException("Unsupported Metrics annotation [" + annotation.getClass().getName() + "]");
+            throw new IllegalArgumentException("Unsupported Metrics annotation [" + annotation.getClass().getName() + ']');
     }
 
     protected static class ForwardingGauge implements com.codahale.metrics.Gauge<Object> {
@@ -88,10 +88,8 @@ abstract aspect AbstractMetricAspect {
     private static Object invokeMethod(Method method, Object object) {
         try {
             return method.invoke(object);
-        } catch (IllegalAccessException cause) {
-            throw new IllegalStateException("Error while calling method [" + method + "]", cause);
-        } catch (InvocationTargetException cause) {
-            throw new IllegalStateException("Error while calling method [" + method + "]", cause);
+        } catch (IllegalAccessException | InvocationTargetException cause) {
+            throw new IllegalStateException("Error while calling method [" + method + ']', cause);
         }
     }
 }

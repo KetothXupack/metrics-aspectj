@@ -16,6 +16,7 @@
 package io.astefanutti.metrics.aspectj;
 
 import com.codahale.metrics.Timer;
+import com.codahale.metrics.Timer.Context;
 import com.codahale.metrics.annotation.Timed;
 import org.aspectj.lang.reflect.MethodSignature;
 
@@ -26,11 +27,8 @@ final aspect TimedAspect {
     Object around(Profiled object) : timed(object) {
         String methodSignature = ((MethodSignature) thisJoinPointStaticPart.getSignature()).getMethod().toString();
         Timer timer = object.timers.get(methodSignature).getMetric();
-        Timer.Context context = timer.time();
-        try {
+        try (Context context = timer.time()) {
             return proceed(object);
-        } finally {
-            context.stop();
         }
     }
 }
