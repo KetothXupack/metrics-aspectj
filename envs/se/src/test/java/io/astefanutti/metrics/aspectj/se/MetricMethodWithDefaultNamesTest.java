@@ -32,9 +32,9 @@ public class MetricMethodWithDefaultNamesTest {
 
     private final static String REGISTRY_NAME = "defaultNameRegistry";
 
-    private final static String[] METRIC_NAMES = {"defaultNameTimedMethod", "defaultNameMeteredMethod", "defaultNameExceptionMeteredMethod.exceptions"};
+    private final static String[] METRIC_NAMES = {"defaultNameTimedMethod.timer", "defaultNameMeteredMethod.meter", "defaultNameExceptionMeteredMethod.exceptions"};
 
-    private final static String[] ABSOLUTE_METRIC_NAMES = {"absoluteDefaultNameTimedMethod", "absoluteDefaultNameMeteredMethod", "absoluteDefaultNameExceptionMeteredMethod.exceptions"};
+    private final static String[] ABSOLUTE_METRIC_NAMES = {"absoluteDefaultNameTimedMethod.timer", "absoluteDefaultNameMeteredMethod.meter", "absoluteDefaultNameExceptionMeteredMethod.exceptions"};
 
     private MetricMethodWithDefaultNames instance;
 
