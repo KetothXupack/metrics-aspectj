@@ -39,11 +39,11 @@
     </issueManagement>
 
     <scm>
-        <connection>scm:git:git@github.com:astefanutti/metrics-aspectj.git</connection>
-        <developerConnection>scm:git:git@github.com:astefanutti/metrics-aspectj.git</developerConnection>
-        <url>scm:git:git@github.com:astefanutti/metrics-aspectj.git</url>
-      <tag>HEAD</tag>
-  </scm>
+        <connection>scm:git:git@github.com:KetothXupack/metrics-aspectj.git</connection>
+        <developerConnection>scm:git:git@github.com:KetothXupack/metrics-aspectj.git</developerConnection>
+        <url>scm:git:git@github.com:KetothXupack/metrics-aspectj.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
