@@ -8,7 +8,7 @@
         <version>9</version>
     </parent>
 
-    <groupId>io.astefanutti.metrics.aspectj</groupId>
+    <groupId>org.no-hope.aspectj</groupId>
     <artifactId>metrics-aspectj-parent</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
