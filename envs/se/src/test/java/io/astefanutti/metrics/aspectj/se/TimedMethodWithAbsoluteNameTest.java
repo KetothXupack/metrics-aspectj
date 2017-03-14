@@ -27,9 +27,9 @@ import static org.junit.Assert.assertThat;
 
 public class TimedMethodWithAbsoluteNameTest {
 
-    private final static String REGISTRY_NAME = "timerRegistryForAbsoluteNamedTimer";
+    private static final String REGISTRY_NAME = "timerRegistryForAbsoluteNamedTimer";
 
-    private final static String TIMER_NAME = "absoluteTimedMethod";
+    private static final String TIMER_NAME = "absoluteTimedMethod";
 
     private TimedMethodWithAbsoluteName instance;
 

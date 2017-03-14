@@ -19,7 +19,6 @@ import com.codahale.metrics.MetricRegistry;
 import com.codahale.metrics.SharedMetricRegistries;
 import com.codahale.metrics.Timer;
 import io.astefanutti.metrics.aspectj.se.util.MetricsUtil;
-import io.astefanutti.metrics.aspectj.se.util.MetricsUtil;
 import org.hamcrest.Matchers;
 import org.junit.After;
 import org.junit.Before;
@@ -28,18 +27,21 @@ import org.junit.Test;
 import java.util.Arrays;
 import java.util.Set;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.everyItem;
+import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 public class TimedMethodOverloadedTest {
 
-    private final static String REGISTRY_NAME = "overloadedTimerRegistry";
+    private static final String REGISTRY_NAME = "overloadedTimerRegistry";
 
-    private final static String[] TIMER_NAMES = {"overloadedTimedMethodWithNoArguments", "overloadedTimedMethodWithStringArgument", "overloadedTimedMethodWithListOfStringArgument", "overloadedTimedMethodWithObjectArgument"};
+    private static final String[] TIMER_NAMES = {"overloadedTimedMethodWithNoArguments", "overloadedTimedMethodWithStringArgument", "overloadedTimedMethodWithListOfStringArgument", "overloadedTimedMethodWithObjectArgument"};
 
     private TimedMethodOverloaded instance;
 
-    private Set<String> absoluteMetricNames() {
+    private static Set<String> absoluteMetricNames() {
         return MetricsUtil.absoluteMetricNames(TimedMethodOverloaded.class, TIMER_NAMES);
     }
 

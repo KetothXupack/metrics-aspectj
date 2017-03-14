@@ -25,10 +25,16 @@ public final class MetricsUtil {
     private MetricsUtil() {
     }
 
+    private static final String REGISTRY_NAME = "overloadedTimerRegistry";
+
+    private static final String[] TIMER_NAMES = {"overloadedTimedMethodWithNoArguments", "overloadedTimedMethodWithStringArgument", "overloadedTimedMethodWithListOfStringArgument", "overloadedTimedMethodWithObjectArgument"};
+
+
     public static Set<String> absoluteMetricNames(Class<?> clazz, String... names) {
         Set<String> set = new HashSet<String>(names.length);
-        for (String name : names)
+        for (String name : names) {
             set.add(absoluteMetricName(clazz, name));
+        }
 
         return set;
     }

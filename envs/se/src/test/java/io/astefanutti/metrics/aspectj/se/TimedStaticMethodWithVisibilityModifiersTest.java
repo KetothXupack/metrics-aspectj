@@ -31,9 +31,9 @@ import static org.junit.Assert.assertThat;
 
 public class TimedStaticMethodWithVisibilityModifiersTest {
 
-    private final static String REGISTRY_NAME = "visibilityTimerStaticRegistry";
+    private static final String REGISTRY_NAME = "visibilityTimerStaticRegistry";
 
-    private final static String[] TIMER_NAMES = {"publicTimedStaticMethod", "packagePrivateTimedStaticMethod", "protectedTimedStaticMethod", "privateTimedStaticMethod"};
+    private static final String[] TIMER_NAMES = {"publicTimedStaticMethod", "packagePrivateTimedStaticMethod", "protectedTimedStaticMethod", "privateTimedStaticMethod"};
 
     private static Set<String> absoluteMetricNames() {
         return MetricsUtil.absoluteMetricNames(TimedStaticMethodWithVisibilityModifiers.class, TIMER_NAMES);
