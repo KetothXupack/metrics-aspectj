@@ -55,6 +55,7 @@
         <module>impl</module>
         <module>deps</module>
         <module>envs</module>
+        <module>annotations</module>
     </modules>
 
     <build>

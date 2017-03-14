@@ -53,7 +53,7 @@ import java.lang.annotation.Target;
  * A {@code Timer} instance will be registered in the provided {@code MetricRegistry}.
  */
 @Inherited
-@Target({ElementType.TYPE})
+@Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Metrics {
 
