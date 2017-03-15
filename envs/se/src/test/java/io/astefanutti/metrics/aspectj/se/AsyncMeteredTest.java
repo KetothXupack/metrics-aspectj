@@ -39,4 +39,17 @@ public class AsyncMeteredTest {
         assertEquals(1, values.length);
         assertTrue(values[0] >= TimeUnit.SECONDS.toNanos(4));
     }
+
+    @Test
+    public void correctlyAccountAsyncException() throws InterruptedException {
+        MetricRegistry registry = SharedMetricRegistries.getOrCreate(REGISTRY_NAME);
+        try {
+            instance.exceptionMethod().join();
+        } catch (Exception ignored) {
+        }
+
+        final String metricName = MetricsUtil.absoluteMetricName(SimpleAsyncTimed.class, "exceptionMethod");
+        final long count = registry.getMeters().get(metricName + ".asyncExceptions").getCount();
+        assertEquals(1, count);
+    }
 }

@@ -100,6 +100,14 @@ final aspect MetricAspect extends AbstractMetricAspect {
                 if (asyncTimer.isPresent()) {
                     object.timers.put(method.toString(), asyncTimer);
                 }
+
+                AnnotatedMetric<Meter> asyncException = metricAnnotation(method, AsyncExceptionMetered.class, (name, absolute) -> {
+                    String finalName = name.isEmpty() ? method.getName() + '.' + AsyncExceptionMetered.DEFAULT_NAME_SUFFIX : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
+                    return registry.meter(absolute ? finalName : MetricRegistry.name(type, finalName));
+                });
+                if (asyncException.isPresent()) {
+                    object.meters.put(method.toString(), asyncException);
                 }
             }
             clazz = clazz.getSuperclass();

@@ -1,5 +1,6 @@
 package io.astefanutti.metrics.aspectj.se;
 
+import io.astefanutti.metrics.aspectj.AsyncExceptionMetered;
 import io.astefanutti.metrics.aspectj.AsyncTimed;
 import io.astefanutti.metrics.aspectj.Metrics;
 
@@ -19,6 +20,13 @@ public class SimpleAsyncTimed {
             }
 
             return 10;
+        });
+    }
+
+    @AsyncExceptionMetered
+    public CompletableFuture<Integer> exceptionMethod() throws InterruptedException {
+        return CompletableFuture.supplyAsync(() -> {
+            throw new IllegalStateException();
         });
     }
 }

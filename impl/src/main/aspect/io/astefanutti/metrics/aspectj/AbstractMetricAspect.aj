@@ -52,6 +52,8 @@ abstract aspect AbstractMetricAspect {
             return ((Timed) annotation).name();
         else if (AsyncTimed.class.isInstance(annotation))
             return ((AsyncTimed) annotation).name();
+        else if (AsyncExceptionMetered.class.isInstance(annotation))
+            return ((AsyncExceptionMetered) annotation).name();
         else
             throw new IllegalArgumentException("Unsupported Metrics annotation [" + annotation.getClass().getName() + ']');
     }
@@ -67,6 +69,8 @@ abstract aspect AbstractMetricAspect {
             return ((Timed) annotation).absolute();
         else if (AsyncTimed.class.isInstance(annotation))
             return ((AsyncTimed) annotation).absolute();
+        else if (AsyncExceptionMetered.class.isInstance(annotation))
+            return ((AsyncExceptionMetered) annotation).absolute();
         else
             throw new IllegalArgumentException("Unsupported Metrics annotation [" + annotation.getClass().getName() + ']');
     }
