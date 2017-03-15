@@ -68,7 +68,15 @@ final aspect MetricAspect extends AbstractMetricAspect {
                 AnnotatedMetric<com.codahale.metrics.Gauge> gauge = metricAnnotation(method, Gauge.class, (name, absolute) -> {
                     String finalName = name.isEmpty() ? method.getName() : strategy.resolveMetricName(name);
                     MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
-                    return registry.register(absolute ? finalName : MetricRegistry.name(type, finalName), new ForwardingGauge(method, object));
+
+                    final String gaugeName = absolute ? finalName : MetricRegistry.name(type, finalName);
+                    if (!registry.getGauges().containsKey(gaugeName)) {
+                        try {
+                            registry.register(gaugeName, new ForwardingGauge(method, object));
+                        } catch (IllegalArgumentException ignored) {
+                        }
+                    }
+                    return registry.getGauges().get(gaugeName);
                 });
                 if (gauge.isPresent()) {
                     object.gauges.put(method.toString(), gauge);
