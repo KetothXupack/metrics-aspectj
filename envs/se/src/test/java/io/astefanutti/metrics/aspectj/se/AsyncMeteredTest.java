@@ -30,7 +30,7 @@ public class AsyncMeteredTest {
     private static final String REGISTRY_NAME = "asyncTimedRegistry";
 
     @Test
-    public void callTimedStaticMethodsOnce() throws InterruptedException {
+    public void correctlyMeterAsyncOperation() throws InterruptedException {
         MetricRegistry registry = SharedMetricRegistries.getOrCreate(REGISTRY_NAME);
         instance.meteredMethod().join();
 
