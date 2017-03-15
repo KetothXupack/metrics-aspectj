@@ -10,7 +10,7 @@
 
     <groupId>org.no-hope.aspectj</groupId>
     <artifactId>metrics-aspectj-parent</artifactId>
-    <version>1.3</version>
+    <version>1.4-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Metrics AspectJ Parent</name>
@@ -42,7 +42,7 @@
         <connection>scm:git:git@github.com:KetothXupack/metrics-aspectj.git</connection>
         <developerConnection>scm:git:git@github.com:KetothXupack/metrics-aspectj.git</developerConnection>
         <url>scm:git:git@github.com:KetothXupack/metrics-aspectj.git</url>
-        <tag>metrics-aspectj-parent-1.3</tag>
+        <tag>HEAD</tag>
     </scm>
 
     <properties>
