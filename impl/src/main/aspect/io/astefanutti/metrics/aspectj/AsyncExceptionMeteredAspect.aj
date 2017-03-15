@@ -31,8 +31,9 @@ final aspect AsyncExceptionMeteredAspect {
 
         final CompletableFuture result = (CompletableFuture) proceed(object);
         result.whenComplete((o, throwable) -> {
-            if (metric.getAnnotation(AsyncExceptionMetered.class).cause().isInstance(throwable))
+            if (metric.getAnnotation(AsyncExceptionMetered.class).cause().isInstance(throwable)) {
                 metric.getMetric().mark();
+            }
         });
         return result;
     }
