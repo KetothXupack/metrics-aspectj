@@ -40,8 +40,6 @@ final aspect MetricAspect extends AbstractMetricAspect {
 
     final Map<String, AnnotatedMetric<Timer>> Profiled.timers = new ConcurrentHashMap<>();
 
-    final Map<String, AnnotatedMetric<Timer>> Profiled.asyncTimers = new ConcurrentHashMap<>();
-
     pointcut profiled(Profiled object) : execution((@Metrics Profiled+).new(..)) && this(object);
 
     after(final Profiled object) : profiled(object) {
@@ -100,7 +98,8 @@ final aspect MetricAspect extends AbstractMetricAspect {
                     return registry.timer(absolute ? finalName : MetricRegistry.name(type, finalName));
                 });
                 if (asyncTimer.isPresent()) {
-                    object.asyncTimers.put(method.toString(), asyncTimer);
+                    object.timers.put(method.toString(), asyncTimer);
+                }
                 }
             }
             clazz = clazz.getSuperclass();

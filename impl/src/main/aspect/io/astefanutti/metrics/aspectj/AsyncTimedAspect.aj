@@ -28,7 +28,7 @@ final aspect AsyncTimedAspect {
 
     Object around(Profiled object) : asyncTimed(object) {
         String methodSignature = ((MethodSignature) thisJoinPointStaticPart.getSignature()).getMethod().toString();
-        Timer timer = object.asyncTimers.get(methodSignature).getMetric();
+        Timer timer = object.timers.get(methodSignature).getMetric();
 
         Context context = timer.time();
         final CompletableFuture result = (CompletableFuture) proceed(object);
