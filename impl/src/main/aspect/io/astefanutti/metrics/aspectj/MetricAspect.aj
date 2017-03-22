@@ -70,11 +70,11 @@ final aspect MetricAspect extends AbstractMetricAspect {
                     MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
 
                     final String gaugeName = absolute ? finalName : MetricRegistry.name(type, finalName);
-                    if (!registry.getGauges().containsKey(gaugeName)) {
-                        try {
-                            registry.register(gaugeName, new ForwardingGauge(method, object));
-                        } catch (IllegalArgumentException ignored) {
-                        }
+                    try {
+                        // possible race here ¯\_(ツ)_/¯
+                        registry.remove(gaugeName);
+                        registry.register(gaugeName, new ForwardingGauge(method, object));
+                    } catch (IllegalArgumentException ignored) {
                     }
                     return registry.getGauges().get(gaugeName);
                 });
