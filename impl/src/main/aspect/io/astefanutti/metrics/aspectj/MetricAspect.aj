@@ -56,13 +56,15 @@ final aspect MetricAspect extends AbstractMetricAspect {
 
                 final Class<?> type = clazz;
 
-                final String registryName = type.getAnnotation(Metrics.class).registry();
+                final Metrics annotation = type.getAnnotation(Metrics.class);
+
+                final String registryName = annotation == null ? "metrics-registry" : annotation.registry();
                 final DefaultNameResolver defaultNameResolver = SharedDefaultNameResolvers.get(registryName);
 
                 AnnotatedMetric<Meter> exception = metricAnnotation(method, ExceptionMetered.class, (name, absolute) -> {
                     String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) + '.' + ExceptionMetered.DEFAULT_NAME_SUFFIX : strategy.resolveMetricName(name);
                     MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
-                    return registry.meter(absolute ? finalName : MetricRegistry.name(type, finalName));
+                    return registry.meter(absolute ? finalName : MetricRegistry.name(defaultNameResolver.resolveClass(type), finalName));
                 });
                 if (exception.isPresent()) {
                     object.meters.put(method.toString(), exception);

@@ -42,7 +42,7 @@ public interface DefaultNameResolver {
         public String resolveMethod(final Method method) {
             final String name = method.getName();
             if (name.contains("$")) {
-                final String[] parts = name.split("$");
+                final String[] parts = name.split("\\$");
                 return parts[parts.length - 1];
             }
             return name;
