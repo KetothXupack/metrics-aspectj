@@ -56,9 +56,12 @@ final aspect MetricAspect extends AbstractMetricAspect {
 
                 final Class<?> type = clazz;
 
+                final String registryName = type.getAnnotation(Metrics.class).registry();
+                final DefaultNameResolver defaultNameResolver = SharedDefaultNameResolvers.get(registryName);
+
                 AnnotatedMetric<Meter> exception = metricAnnotation(method, ExceptionMetered.class, (name, absolute) -> {
-                    String finalName = name.isEmpty() ? method.getName() + '.' + ExceptionMetered.DEFAULT_NAME_SUFFIX : strategy.resolveMetricName(name);
-                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
+                    String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) + '.' + ExceptionMetered.DEFAULT_NAME_SUFFIX : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
                     return registry.meter(absolute ? finalName : MetricRegistry.name(type, finalName));
                 });
                 if (exception.isPresent()) {
@@ -66,10 +69,10 @@ final aspect MetricAspect extends AbstractMetricAspect {
                 }
 
                 AnnotatedMetric<com.codahale.metrics.Gauge> gauge = metricAnnotation(method, Gauge.class, (name, absolute) -> {
-                    String finalName = name.isEmpty() ? method.getName() : strategy.resolveMetricName(name);
-                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
+                    String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
 
-                    final String gaugeName = absolute ? finalName : MetricRegistry.name(type, finalName);
+                    final String gaugeName = absolute ? finalName : MetricRegistry.name(defaultNameResolver.resolveClass(type), finalName);
                     try {
                         // possible race here ¯\_(ツ)_/¯
                         registry.remove(gaugeName);
@@ -83,36 +86,36 @@ final aspect MetricAspect extends AbstractMetricAspect {
                 }
 
                 AnnotatedMetric<Meter> meter = metricAnnotation(method, Metered.class, (name, absolute) -> {
-                    String finalName = name.isEmpty() ? method.getName() + ".meter" : strategy.resolveMetricName(name);
-                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
-                    return registry.meter(absolute ? finalName : MetricRegistry.name(type, finalName));
+                    String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) + ".meter" : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
+                    return registry.meter(absolute ? finalName : MetricRegistry.name(defaultNameResolver.resolveClass(type), finalName));
                 });
                 if (meter.isPresent()) {
                     object.meters.put(method.toString(), meter);
                 }
 
                 AnnotatedMetric<Timer> timer = metricAnnotation(method, Timed.class, (name, absolute) -> {
-                    String finalName = name.isEmpty() ? method.getName() + ".timer" : strategy.resolveMetricName(name);
-                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
-                    return registry.timer(absolute ? finalName : MetricRegistry.name(type, finalName));
+                    String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) + ".timer" : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
+                    return registry.timer(absolute ? finalName : MetricRegistry.name(defaultNameResolver.resolveClass(type), finalName));
                 });
                 if (timer.isPresent()) {
                     object.timers.put(method.toString(), timer);
                 }
 
                 AnnotatedMetric<Timer> asyncTimer = metricAnnotation(method, AsyncTimed.class, (name, absolute) -> {
-                    String finalName = name.isEmpty() ? method.getName() + ".asyncTimer" : strategy.resolveMetricName(name);
-                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
-                    return registry.timer(absolute ? finalName : MetricRegistry.name(type, finalName));
+                    String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) + ".asyncTimer" : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
+                    return registry.timer(absolute ? finalName : MetricRegistry.name(defaultNameResolver.resolveClass(type), finalName));
                 });
                 if (asyncTimer.isPresent()) {
                     object.timers.put(method.toString(), asyncTimer);
                 }
 
                 AnnotatedMetric<Meter> asyncException = metricAnnotation(method, AsyncExceptionMetered.class, (name, absolute) -> {
-                    String finalName = name.isEmpty() ? method.getName() + '.' + AsyncExceptionMetered.DEFAULT_NAME_SUFFIX : strategy.resolveMetricName(name);
-                    MetricRegistry registry = strategy.resolveMetricRegistry(type.getAnnotation(Metrics.class).registry());
-                    return registry.meter(absolute ? finalName : MetricRegistry.name(type, finalName));
+                    String finalName = name.isEmpty() ? defaultNameResolver.resolveMethod(method) + '.' + AsyncExceptionMetered.DEFAULT_NAME_SUFFIX : strategy.resolveMetricName(name);
+                    MetricRegistry registry = strategy.resolveMetricRegistry(registryName);
+                    return registry.meter(absolute ? finalName : MetricRegistry.name(defaultNameResolver.resolveClass(type), finalName));
                 });
                 if (asyncException.isPresent()) {
                     object.meters.put(method.toString(), asyncException);
